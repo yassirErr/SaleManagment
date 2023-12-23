@@ -1,0 +1,72 @@
+﻿@page "/Orders"
+
+
+<PageTitle> Orders </PageTitle>
+
+<h3>Orders</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header">  <button class="btn btn-primary" @onclick="CreateNewOrder">Create New Order</button></div>
+                   
+                </div>
+              
+                    <div class="card-header">
+                    Order List
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th> Order Id </th>
+                                <th> Order Name </th>
+                                <th> Order State </th>
+                                <th> Status </th>
+                                </tr>
+                        </thead>  
+                            <tbody>
+                            @foreach (var ord in OrderService.Ords)
+                            {
+                                <tr>
+                                    <td>@ord.Id</td>
+                                    <td>@ord.Name</td>
+                                    <td>@ord.State</td>
+
+                                    <td>
+                                        <div class="hstack gap-2">
+
+                                           <button class="btn  btn-info" @onclick="(() => ShowOrd(ord.Id))"> Edit </button> 
+                                 
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await OrderService.GetOrders();
+    }
+    void ShowOrd(int id)
+    {
+        NavigationManager.NavigateTo($"crUpOrder/{id}");
+    }
+
+    void CreateNewOrder()
+    {
+        NavigationManager.NavigateTo("/crUpOrder");
+    }
+}
+

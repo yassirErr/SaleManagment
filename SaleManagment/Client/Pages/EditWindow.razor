@@ -1,0 +1,71 @@
+﻿@page "/crUpWindow"
+@page "/crUpWindow/{id:int}"
+@if(Id == null){
+<PageTitle>Create a new Window</PageTitle>
+
+    <h3>Create a new Window</h3>
+}
+else
+{
+    <PageTitle>Edit @win.Name</PageTitle>
+    <h3> Edit @win.Name</h3>
+}
+
+<EditForm Model="win" OnSubmit="HandleSubmit">
+
+    <div>
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="win.Name" class="form-control"></InputText>
+    </div>
+
+    <div>
+        <label for="QuantityOfWindows">Quantity Of Windows</label>
+        <InputNumber id="QuantityOfWindows" @bind-Value="win.QuantityOfWindows" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="TotalSubElements">Total SubElements</label>
+        <InputNumber id="TotalSubElements" @bind-Value="win.TotalSubElements" class="form-control"></InputNumber>
+    </div>
+
+    <br />
+  
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    <button type="button" class="btn btn-danger" @onclick="DeleteWindow">Delete Window</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    string btnText = string.Empty;
+    Window win = new Window ();
+
+    protected override async Task OnInitializedAsync()
+    {
+        btnText = Id == null ? "Save New window" : "Update window";
+       
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+      
+            win = await WindowService.GetWindow((int)Id);
+        
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+             await WindowService.CreateWindow(win);
+        }
+        else
+        {
+            await WindowService.UpdateWindow(win);
+        }
+    }
+
+    async Task DeleteWindow()
+    {
+        await WindowService.DeleteWindow(win.Id);
+    }
+
+}

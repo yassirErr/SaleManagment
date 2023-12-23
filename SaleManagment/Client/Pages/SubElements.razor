@@ -1,0 +1,78 @@
+﻿@page "/SubElements"
+
+
+
+<PageTitle> SubElements </PageTitle>
+
+<h3>SubElements</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header">  <button class="btn btn-primary" @onclick="CreateSubElement">Create New SubElement</button></div>
+                   
+                </div>
+              
+                    <div class="card-header">
+                    Window List
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th>  Id </th>
+                                <th> Element </th>
+                                <th> Type </th>
+                                <th> Width </th>
+                                <th> Height </th>
+                                <th> Status </th>
+                                </tr>
+                        </thead>  
+                            <tbody>
+                            @foreach (var subEl in SubElementService.SubEl)
+                            {
+                                <tr>
+                                    <td>@subEl.Id</td>
+                                    <td>@subEl.Element</td>
+                                    <td>@subEl.Type</td>
+                                    <td>@subEl.Width</td>
+                                    <td>@subEl.Height</td>
+                                
+                                    <td>
+                                        <div class="hstack gap-2">
+
+                                            <button class="btn  btn-info" @onclick="(() => ShowSubElement(subEl.Id))"> Edit </button>
+                                      
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SubElementService.GetSubElements();
+    }
+
+    void ShowSubElement(int id)
+    {
+        NavigationManager.NavigateTo($"crUpSubElement/{id}");
+    }
+
+    void CreateSubElement()
+    {
+        NavigationManager.NavigateTo("/crUpSubElement");
+    }
+}
+

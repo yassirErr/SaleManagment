@@ -1,0 +1,77 @@
+﻿@page "/Windows"
+
+
+
+<PageTitle> Windows </PageTitle>
+
+<h3>Windows</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header">  <button class="btn btn-primary" @onclick="CreateNewWindow">Create New Window</button></div>
+                   
+                </div>
+              
+                    <div class="card-header">
+                    Window List
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th> Window Id </th>
+                                    <th> Window Name </th>
+                                    <th> Windows Quantity </th>
+                                <th> Total SubElements </th>
+                                <th> Order SubElements </th>
+                                <th> Status </th>
+                                </tr>
+                        </thead>  
+                            <tbody>
+                            @foreach (var wind in WindowService.Windo)
+                            {
+                                <tr>
+                                    <td>@wind.Id</td>
+                                    <td>@wind.Name</td>
+                                    <td>@wind.QuantityOfWindows</td>
+                                    <td>@wind.TotalSubElements</td>
+                                
+                                    <td>
+                                        <div class="hstack gap-2">
+
+                                            <button class="btn  btn-info" @onclick="(() => ShowWindo(wind.Id))"> Edit </button>
+                                      
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await WindowService.GetWindows();
+    }
+
+    void ShowWindo(int id)
+    {
+        NavigationManager.NavigateTo($"crUpWindow/{id}");
+    }
+
+    void CreateNewWindow()
+    {
+        NavigationManager.NavigateTo("/crUpWindow");
+    }
+}
+
