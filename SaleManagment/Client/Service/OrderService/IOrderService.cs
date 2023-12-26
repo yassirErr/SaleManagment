@@ -2,7 +2,7 @@
 
 namespace SaleManagment.Client.Service.OrderService
 {
-    public interface IOrderService
+    public interface IOrderRepository
     {
         List<Order> Ords { get; set; }
 

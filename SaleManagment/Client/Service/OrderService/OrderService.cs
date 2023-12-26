@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace SaleManagment.Client.Service.OrderService
 {
-    public class OrderService : IOrderService
+    public class OrderService : IOrderRepository
     {
 
         private readonly HttpClient _http;
